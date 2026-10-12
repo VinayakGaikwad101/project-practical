@@ -1,34 +1,29 @@
-flowchart TD
-    subgraph Navbar["TOP NAVIGATION BAR"]
-        direction LR
-        Logo["DraftEngine Logo"]
-        DocTitle["Document Title Field"]
-        SaveStatus["Saved Status Indicator"]
-        ExportBtn["[Export PDF] Button"]
-        SaveBtn["[Save] Button"]
-        Profile["User Profile Circle"]
+block-beta
+  columns 12
 
-        Logo --> DocTitle --> SaveStatus --> ExportBtn --> SaveBtn --> Profile
-    end
+  %% TOP NAVBAR (Full 12 columns wide)
+  block:navbar:12
+    columns 12
+    brand["DraftEngine (Logo)"]:2
+    title["Untitled Document (Input Field)"]:4
+    status["Saved at 20:30"]:2
+    btnPdf["[ Export PDF ]"]:1
+    btnSave["[ Save ]"]:1
+    avatar["(VG) User Profile"]:2
+  end
 
-    subgraph CanvasSide["DOCUMENT CANVAS (LEFT PANE)"]
-        direction TB
-        QuillTools["Quill Toolbar: Bold, Italic, Headers, Lists, Code, Clean"]
-        DiffPanel["Proposed Amendments Diff Box: (-) Old Text / (+) New Text"]
-        QuillBody["Rich Text Editor Canvas (Georgia Serif Body Text)"]
+  %% MAIN WORKSPACE: LEFT CANVAS (8 cols) + RIGHT COPILOT (4 cols)
+  block:editorPane:8
+    columns 1
+    toolbar["Rich-Text Toolbar: Bold | Italic | Underline | Strikethrough | H1 | H2 | Bullet List | Code | Clean"]
+    diffBox["PROPOSED AMENDMENTS (DIFF BOX)\n[-] - Hello I am Vinayak Vishwanath Gaikwad\n[+] + Hello, I am Vinayak Vishwanath Gaikwad.\n[ Discard ]    [ Apply Changes ]"]
+    canvas["DOCUMENT CANVAS (Georgia Serif Typography)\n\nHighlighted selection: 'Hello I am Vinayak Vishwanath Gaikwad'\n\nRemaining document paragraphs and content..."]
+  end
 
-        QuillTools --> DiffPanel --> QuillBody
-    end
-
-    subgraph CopilotSide["AI COPILOT (RIGHT PANE)"]
-        direction TB
-        CopilotHeader["Assistant Header: Editorial Copilot"]
-        MessageHistory["Conversation Message Stream"]
-        SelectedChip["Selected Text Card with Action Buttons: Rephrase | Fix Grammar | Summarize"]
-        PromptInput["Command Input Field with Send Button"]
-
-        CopilotHeader --> MessageHistory --> SelectedChip --> PromptInput
-    end
-
-    Navbar --> CanvasSide
-    Navbar --> CopilotSide
+  block:copilotPane:4
+    columns 1
+    aiHeader["AI ASSISTANT (Editorial Copilot)"]
+    aiChat["Conversation History Stream\n\nAI: I've fixed the punctuation and refined the tone..."]
+    aiChip["Selected Text Target Card:\n'Hello I am Vinayak Vishwanath Gaikwad' [X]\n[ Rephrase ]   [ Fix Grammar ]   [ Summarize ]"]
+    aiInput["Prompt Input Box: 'Type a command or instruction...' [ Send ]"]
+  end
