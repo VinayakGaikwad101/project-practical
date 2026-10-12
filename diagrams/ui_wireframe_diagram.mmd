@@ -1,25 +1,34 @@
 flowchart TD
     subgraph Navbar["TOP NAVIGATION BAR"]
         direction LR
-        Logo["DraftEngine"] --- TitleInput["[ Document Title Input ]"] --- Status["Saved at 20:30"] --- ExportBtn["[Export PDF]"] --- SaveBtn["[Save]"] --- Avatar["(VG) User Profile"]
+        Logo["DraftEngine Logo"]
+        DocTitle["Document Title Field"]
+        SaveStatus["Saved Status Indicator"]
+        ExportBtn["[Export PDF] Button"]
+        SaveBtn["[Save] Button"]
+        Profile["User Profile Circle"]
+
+        Logo --> DocTitle --> SaveStatus --> ExportBtn --> SaveBtn --> Profile
     end
 
-    subgraph Workspace["MAIN WORKSPACE SPLIT LAYOUT"]
-        direction LR
-        subgraph EditorArea["DOCUMENT CANVAS (Left 70%)"]
-            QuillBar["Rich Text Toolbar: B I U S H1 H2 List Code Clean"]
-            QuillCanvas["Georgia Serif Rich-Text Canvas\n\nHighlighted Target Text: 'Hello I am Vinayak Gaikwad'\n\nRemaining Document Body Paragraphs..."]
-            DiffBox["PROPOSED AMENDMENTS DIFF PANEL\n(-) - Hello I am Vinayak Vishwanath Gaikwad\n(+) + Hello, I am Vinayak Vishwanath Gaikwad.\n[Discard]  [Apply Changes]"]
-            QuillBar --- DiffBox --- QuillCanvas
-        end
+    subgraph CanvasSide["DOCUMENT CANVAS (LEFT PANE)"]
+        direction TB
+        QuillTools["Quill Toolbar: Bold, Italic, Headers, Lists, Code, Clean"]
+        DiffPanel["Proposed Amendments Diff Box: (-) Old Text / (+) New Text"]
+        QuillBody["Rich Text Editor Canvas (Georgia Serif Body Text)"]
 
-        subgraph AssistantArea["AI COPILOT PANEL (Right 30%)"]
-            Header["Assistant: Editorial Copilot"]
-            History["Message History Bubble: 'Proposal applied to preview'"]
-            FloatingTarget["Highlighted Context Chip:\n'Hello I am Vinayak Gaikwad' [x]\n[Rephrase] [Fix Grammar] [Summarize]"]
-            InputArea["Input Box: 'Type a command or instruction...' [Send]"]
-            Header --- History --- FloatingTarget --- InputArea
-        end
+        QuillTools --> DiffPanel --> QuillBody
     end
 
-    Navbar --- Workspace
+    subgraph CopilotSide["AI COPILOT (RIGHT PANE)"]
+        direction TB
+        CopilotHeader["Assistant Header: Editorial Copilot"]
+        MessageHistory["Conversation Message Stream"]
+        SelectedChip["Selected Text Card with Action Buttons: Rephrase | Fix Grammar | Summarize"]
+        PromptInput["Command Input Field with Send Button"]
+
+        CopilotHeader --> MessageHistory --> SelectedChip --> PromptInput
+    end
+
+    Navbar --> CanvasSide
+    Navbar --> CopilotSide

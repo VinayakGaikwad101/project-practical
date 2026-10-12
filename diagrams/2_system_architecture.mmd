@@ -1,12 +1,8 @@
 flowchart TD
-    %% Global orthogonal styling
-    linkStyle default interpolate stepAfter
-
     subgraph ClientLayer["Presentation Layer (Client)"]
-        direction TB
-        UI["Next.js 16 (App Router + Tailwind)"]
-        Canvas["React-Quill Canvas (Georgia Serif)"]
-        DiffUI["Diff Engine (Additions / Deletions)"]
+        UI["Next.js 16 Web Application"]
+        Canvas["React-Quill Canvas"]
+        DiffUI["Diff Engine"]
         ChatUI["Copilot Assistant Panel"]
 
         Canvas --> UI
@@ -15,10 +11,9 @@ flowchart TD
     end
 
     subgraph APILayer["API Gateway & Application Server"]
-        direction TB
-        Express["Express.js Server (Node.js TypeScript)"]
+        Express["Express.js Server"]
         AuthMid["JWT Auth Middleware"]
-        DocCtrl["Document Controller (CRUD)"]
+        DocCtrl["Document Controller"]
         AICtrl["AI Controller + KeyRotator"]
         QueueCtrl["BullMQ Export Controller"]
 
@@ -29,24 +24,22 @@ flowchart TD
     end
 
     subgraph DataLayer["Storage & Queue Layer (Docker Engine)"]
-        direction TB
-        Mongo[("MongoDB (Primary DB)")]
-        Redis[("Redis (BullMQ Broker)")]
+        Mongo[("MongoDB Database")]
+        Redis[("Redis Queue Broker")]
         PuppeteerWorker["Puppeteer Headless PDF Engine"]
 
         Redis --> PuppeteerWorker
     end
 
     subgraph ExternalCloud["Cloud Services & Security"]
-        direction TB
         Doppler["Doppler Secrets Cloud"]
         GeminiCloud["Google Gemini 2.5 Flash API"]
-        BrevoCloud["Brevo Transactional Email REST API"]
+        BrevoCloud["Brevo Transactional Email Service"]
     end
 
     UI --> Express
-    Doppler -.->|"Injects Secrets"| Express
+    Doppler --> Express
     DocCtrl --> Mongo
     QueueCtrl --> Redis
-    AICtrl -->|"Multi-Key Auto-Rotation"| GeminiCloud
-    AuthMid -->|"OTP Delivery"| BrevoCloud
+    AICtrl --> GeminiCloud
+    AuthMid --> BrevoCloud

@@ -1,38 +1,34 @@
 flowchart TD
-    %% Orthogonal 90-degree lines
-    linkStyle default interpolate stepAfter
-
     User["👤 Author / User"]
-
-    subgraph SystemBoundary["AI Document Editor System"]
-        direction TB
-        subgraph AuthFeatures["User Authentication"]
-            UC1(["Register New Account"])
-            UC2(["Sign In with JWT"])
-            UC3(["Request OTP Password Reset"])
-        end
-
-        subgraph CoreDocFeatures["Document Authoring"]
-            UC4(["Create & Edit Document Drafts"])
-            UC8(["Export Styled A4 PDF"])
-            UC9(["Delete Authored Document"])
-        end
-
-        subgraph AIFeatures["AI Copilot & Amendments"]
-            UC5(["Highlight Text for AI Prompts"])
-            UC6(["Review Redline Diff Amendments"])
-            UC7(["Accept or Reject AI Amendments"])
-        end
-    end
+    
+    UC1(["Register New Account"])
+    UC2(["Sign In with JWT"])
+    UC3(["Request OTP Password Reset"])
+    UC4(["Create & Edit Document Drafts"])
+    UC5(["Highlight Text for AI Prompts"])
+    UC6(["Review Redline Diff Amendments"])
+    UC7(["Accept or Reject AI Amendments"])
+    UC8(["Export Styled A4 PDF"])
+    UC9(["Delete Authored Document"])
 
     Brevo["📧 Brevo Email Service"]
     Docker["🐳 Docker (Mongo + Redis)"]
     Gemini["🤖 Google Gemini API"]
 
-    User --> AuthFeatures
-    User --> CoreDocFeatures
-    User --> AIFeatures
+    User --- UC1
+    User --- UC2
+    User --- UC3
+    User --- UC4
+    User --- UC5
+    User --- UC6
+    User --- UC7
+    User --- UC8
+    User --- UC9
 
     UC3 -.-> Brevo
-    CoreDocFeatures -.-> Docker
-    AIFeatures -.-> Gemini
+    UC4 -.-> Docker
+    UC8 -.-> Docker
+    UC9 -.-> Docker
+    UC5 -.-> Gemini
+    UC6 -.-> Gemini
+    UC7 -.-> Gemini
