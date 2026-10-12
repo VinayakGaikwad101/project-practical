@@ -1,0 +1,38 @@
+sequenceDiagram
+    autonumber
+    actor User as Author
+    participant Canvas as Quill Canvas
+    participant ChatPanel as AI Copilot Panel
+    participant Backend as Express Backend
+    participant KeyRotator as KeyRotator Service
+    participant Gemini as Gemini 2.5 Flash
+    participant Diff as DiffPreview Component
+
+    User->>Canvas: Highlights text segment
+    Canvas->>ChatPanel: Emit selectedText event
+    User->>ChatPanel: Types prompt (e.g., 'Fix grammar and tone')
+    ChatPanel->>Backend: POST /api/ai/chat (prompt, selection, documentContent)
+    
+    Backend->>KeyRotator: Request active Gemini API Key
+    KeyRotator-->>Backend: Returns Key Slot #1
+    Backend->>Gemini: Invoke ChatGoogleGenerativeAI
+    
+    alt 429 Rate Limit Encountered
+        Gemini-->>Backend: Error 429 (Quota Exceeded)
+        Backend->>KeyRotator: rotateToNextKey()
+        KeyRotator-->>Backend: Switches to Key Slot #2
+        Backend->>Gemini: Retry with Key Slot #2
+    end
+    
+    Gemini-->>Backend: JSON { message, proposedContent }
+    Backend-->>ChatPanel: HTTP 200 { message, proposedContent }
+    ChatPanel->>Diff: Render Redline Diff Preview
+    
+    alt User Accepts Proposal
+        User->>Diff: Clicks 'Apply Changes'
+        Diff->>Canvas: Replace content state with proposedContent
+        Canvas-->>User: Canvas updates with clean applied formatting
+    else User Rejects Proposal
+        User->>Diff: Clicks 'Discard'
+        Diff->>Canvas: Revert to original content
+    end

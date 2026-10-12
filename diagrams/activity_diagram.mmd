@@ -1,0 +1,28 @@
+stateDiagram-v2
+    [*] --> Idle : User opens Editor Canvas
+    Idle --> TextSelected : User highlights text with cursor
+    TextSelected --> PromptSubmitted : User types prompt or clicks quick action
+    PromptSubmitted --> LLMProcessing : Send context & selection to Express API
+    
+    state LLMProcessing {
+        [*] --> SelectKey : KeyRotator assigns active slot
+        SelectKey --> InvokeGemini : ChatGoogleGenerativeAI call
+        InvokeGemini --> CheckRateLimit : Evaluate response
+        CheckRateLimit --> RotateKey : 429 Quota Exceeded
+        RotateKey --> InvokeGemini : Retry with next slot
+        CheckRateLimit --> SuccessResponse : 200 OK Valid JSON
+    }
+
+    LLMProcessing --> DiffRendered : Return proposedContent
+    DiffRendered --> AmendmentsPreview : Redline Additions (+) & Deletions (-)
+
+    state AmendmentsPreview {
+        [*] --> UserDecision
+        UserDecision --> Accepted : User clicks "Apply Changes"
+        UserDecision --> Rejected : User clicks "Discard"
+    }
+
+    Accepted --> CanvasUpdated : Overwrite content state with amendments
+    Rejected --> CanvasReverted : Restore original snapshot
+    CanvasUpdated --> Idle : Ready for next edit
+    CanvasReverted --> Idle : Ready for next edit

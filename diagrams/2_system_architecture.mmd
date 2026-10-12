@@ -1,0 +1,44 @@
+flowchart TD
+    subgraph ClientLayer["Presentation Layer (Client)"]
+        UI["Next.js 16 (App Router + Tailwind)"]
+        Canvas["React-Quill Canvas (Georgia Serif)"]
+        DiffUI["Diff Engine (Additions / Deletions)"]
+        ChatUI["Copilot Assistant Panel"]
+    end
+
+    subgraph APILayer["API Gateway & Application Server"]
+        Express["Express.js Server (Node.js TypeScript)"]
+        AuthMid["JWT Auth Middleware"]
+        DocCtrl["Document Controller (CRUD)"]
+        AICtrl["AI Controller + KeyRotator"]
+        QueueCtrl["BullMQ Export Controller"]
+    end
+
+    subgraph DataLayer["Storage & Queue Layer (Docker Engine)"]
+        Mongo[("MongoDB (Primary DB)")]
+        Redis[("Redis (BullMQ Broker)")]
+        PuppeteerWorker["Puppeteer Headless PDF Engine"]
+    end
+
+    subgraph ExternalCloud["Cloud Services & Security"]
+        Doppler["Doppler Secrets Cloud"]
+        GeminiCloud["Google Gemini 2.5 Flash API"]
+        BrevoCloud["Brevo Transactional Email REST API"]
+    end
+
+    UI --> Express
+    Canvas --> UI
+    DiffUI --> UI
+    ChatUI --> UI
+
+    Express --> AuthMid
+    AuthMid --> DocCtrl
+    AuthMid --> AICtrl
+    AuthMid --> QueueCtrl
+
+    Doppler -.->|"Injects Secrets at Runtime"| Express
+    DocCtrl --> Mongo
+    QueueCtrl --> Redis
+    Redis --> PuppeteerWorker
+    AICtrl -->|"Multi-Key Auto-Rotation"| GeminiCloud
+    AuthMid -->|"OTP Delivery"| BrevoCloud

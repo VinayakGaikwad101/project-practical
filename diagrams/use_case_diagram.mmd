@@ -1,0 +1,33 @@
+flowchart LR
+    User["👤 Author / User"]
+    Gemini["🤖 Google Gemini API"]
+    Brevo["📧 Brevo Email Service"]
+    Docker["🐳 Docker (Mongo + Redis)"]
+
+    subgraph SystemBoundary["AI Document Editor System"]
+        UC1(["Register New Account"])
+        UC2(["Sign In with JWT"])
+        UC3(["Request OTP Password Reset"])
+        UC4(["Create & Edit Document Drafts"])
+        UC5(["Highlight Text for AI Prompts"])
+        UC6(["Review Redline Diff Amendments"])
+        UC7(["Accept or Reject AI Amendments"])
+        UC8(["Export Styled A4 PDF"])
+        UC9(["Delete Authored Document"])
+    end
+
+    User --> UC1
+    User --> UC2
+    User --> UC3
+    User --> UC4
+    User --> UC5
+    User --> UC6
+    User --> UC7
+    User --> UC8
+    User --> UC9
+
+    UC3 -.-> Brevo
+    UC5 -.-> Gemini
+    UC6 -.-> Gemini
+    UC4 -.-> Docker
+    UC8 -.-> Docker

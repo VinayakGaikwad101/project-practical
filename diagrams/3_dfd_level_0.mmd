@@ -1,0 +1,14 @@
+flowchart LR
+    Author["Author / User"]
+    System["0.0 AI Document Editor System"]
+    Gemini["Google Gemini Cloud API"]
+    Brevo["Brevo Email Service"]
+    Doppler["Doppler Cloud Vault"]
+
+    Author -->|"Credentials, Prompts, Edits"| System
+    System -->|"Auth Token, Diff Proposals, PDF Blobs"| Author
+
+    Doppler -->|"Encrypted Runtime Secrets"| System
+    System -->|"Document Context & Prompts"| Gemini
+    Gemini -->|"JSON Edit Proposals"| System
+    System -->|"OTP Reset Codes"| Brevo

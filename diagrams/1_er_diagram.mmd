@@ -1,0 +1,41 @@
+erDiagram
+    USER ||--o{ DOCUMENT_DRAFT : "authors (1:N)"
+    USER ||--o{ PASSWORD_RESET_OTP : "requests (1:N)"
+    DOCUMENT_DRAFT ||--o{ CHAT_MESSAGE : "contains context (1:N)"
+
+    USER {
+        ObjectId _id PK
+        string name
+        string email UK
+        string passwordHash
+        date createdAt
+        date updatedAt
+    }
+
+    DOCUMENT_DRAFT {
+        ObjectId _id PK
+        ObjectId userId FK
+        string title
+        string content
+        date lastAutoSavedAt
+        date createdAt
+        date updatedAt
+    }
+
+    PASSWORD_RESET_OTP {
+        ObjectId _id PK
+        string email
+        string otpCode
+        date expiresAt
+        boolean used
+        date createdAt
+    }
+
+    CHAT_MESSAGE {
+        ObjectId _id PK
+        ObjectId documentId FK
+        string role "user | ai"
+        string content
+        string proposedContent
+        date timestamp
+    }

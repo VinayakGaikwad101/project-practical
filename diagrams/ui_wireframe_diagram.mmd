@@ -1,0 +1,25 @@
+flowchart TD
+    subgraph Navbar["TOP NAVIGATION BAR"]
+        direction LR
+        Logo["DraftEngine"] --- TitleInput["[ Document Title Input ]"] --- Status["Saved at 20:30"] --- ExportBtn["[Export PDF]"] --- SaveBtn["[Save]"] --- Avatar["(VG) User Profile"]
+    end
+
+    subgraph Workspace["MAIN WORKSPACE SPLIT LAYOUT"]
+        direction LR
+        subgraph EditorArea["DOCUMENT CANVAS (Left 70%)"]
+            QuillBar["Rich Text Toolbar: B I U S H1 H2 List Code Clean"]
+            QuillCanvas["Georgia Serif Rich-Text Canvas\n\nHighlighted Target Text: 'Hello I am Vinayak Gaikwad'\n\nRemaining Document Body Paragraphs..."]
+            DiffBox["PROPOSED AMENDMENTS DIFF PANEL\n(-) - Hello I am Vinayak Vishwanath Gaikwad\n(+) + Hello, I am Vinayak Vishwanath Gaikwad.\n[Discard]  [Apply Changes]"]
+            QuillBar --- DiffBox --- QuillCanvas
+        end
+
+        subgraph AssistantArea["AI COPILOT PANEL (Right 30%)"]
+            Header["Assistant: Editorial Copilot"]
+            History["Message History Bubble: 'Proposal applied to preview'"]
+            FloatingTarget["Highlighted Context Chip:\n'Hello I am Vinayak Gaikwad' [x]\n[Rephrase] [Fix Grammar] [Summarize]"]
+            InputArea["Input Box: 'Type a command or instruction...' [Send]"]
+            Header --- History --- FloatingTarget --- InputArea
+        end
+    end
+
+    Navbar --- Workspace

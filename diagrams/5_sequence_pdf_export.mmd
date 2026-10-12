@@ -1,0 +1,23 @@
+sequenceDiagram
+    autonumber
+    actor User as Author
+    participant Page as Document Editor Page
+    participant Server as Express Server
+    participant Redis as Redis / BullMQ
+    participant Worker as Puppeteer Worker
+    participant DB as MongoDB
+
+    User->>Page: Clicks 'Export PDF'
+    Page->>Page: Set inline spinner state (disable button)
+    Page->>Server: POST /api/export/pdf { documentId }
+    Server->>DB: Fetch document HTML and Title
+    DB-->>Server: Return document draft
+    Server->>Redis: Enqueue export job: { html, title, orientation: A4 }
+    Redis-->>Server: Job acknowledged (jobId: #102)
+    Server->>Worker: Worker picks up job from queue
+    Worker->>Worker: Launch headless browser & render editorial CSS
+    Worker->>Worker: page.pdf({ format: 'A4', printBackground: true })
+    Worker-->>Server: Return binary PDF Buffer
+    Server-->>Page: Stream application/pdf blob
+    Page->>User: Trigger automated browser download
+    Page->>Page: Reset button state & show toast: 'PDF downloaded'

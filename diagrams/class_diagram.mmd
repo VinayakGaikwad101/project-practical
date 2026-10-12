@@ -1,0 +1,70 @@
+classDiagram
+    direction TB
+
+    class User {
+        +ObjectId _id
+        +string name
+        +string email
+        +string passwordHash
+        +date createdAt
+        +comparePassword(candidate) boolean
+    }
+
+    class DocumentDraft {
+        +ObjectId _id
+        +ObjectId userId
+        +string title
+        +string content
+        +date lastAutoSavedAt
+        +date updatedAt
+    }
+
+    class PasswordResetOTP {
+        +ObjectId _id
+        +string email
+        +string otpCode
+        +date expiresAt
+        +boolean used
+        +isValid() boolean
+    }
+
+    class ChatMessage {
+        +ObjectId _id
+        +ObjectId documentId
+        +string role
+        +string content
+        +string proposedContent
+        +date timestamp
+    }
+
+    class DocumentController {
+        +getDocuments(req, res)
+        +getDocumentById(req, res)
+        +createDocument(req, res)
+        +updateDocument(req, res)
+        +deleteDocument(req, res)
+    }
+
+    class AIController {
+        +handleChat(req, res)
+    }
+
+    class KeyRotator {
+        -string[] keys
+        -number currentIndex
+        +getActiveKey() string
+        +rotateToNextKey() string
+    }
+
+    class QueueService {
+        -Queue exportQueue
+        +addExportJob(data) Job
+    }
+
+    User "1" --> "*" DocumentDraft : authors
+    User "1" --> "*" PasswordResetOTP : requests
+    DocumentDraft "1" --> "*" ChatMessage : holds
+    DocumentController ..> DocumentDraft : queries
+    AIController ..> KeyRotator : uses
+    AIController ..> ChatMessage : persists
+    DocumentController ..> QueueService : triggers
