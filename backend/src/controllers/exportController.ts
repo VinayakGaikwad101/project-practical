@@ -19,7 +19,7 @@ export async function exportPdf(req: AuthenticatedRequest, res: Response): Promi
       return;
     }
 
-    // Direct download generation
+    
     const buffer = await generatePdfBuffer(doc.title, doc.content);
 
     res.setHeader("Content-Type", "application/pdf");

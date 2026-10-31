@@ -81,12 +81,12 @@ export default function DashboardPage() {
     );
   }, [documents, searchQuery]);
 
-  // Reset to page 1 when searching
+  
   useEffect(() => {
     setCurrentPage(1);
   }, [searchQuery]);
 
-  // Pagination calculation
+  
   const totalPages = Math.max(1, Math.ceil(filteredDocs.length / ITEMS_PER_PAGE));
   const paginatedDocs = useMemo(() => {
     const start = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -98,7 +98,7 @@ export default function DashboardPage() {
       <Navbar />
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
-        {/* Top Header */}
+        {}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-stone-200">
           <div>
             <h1 className="text-xl font-bold text-stone-900 tracking-tight">
@@ -131,7 +131,7 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Document Grid / Skeleton / Empty State */}
+        {}
         <div className="mt-6">
           {loading ? (
             <DocumentListSkeleton />
@@ -200,7 +200,7 @@ export default function DashboardPage() {
                 ))}
               </div>
 
-              {/* Pagination Controls */}
+              {}
               {totalPages > 1 && (
                 <div className="flex items-center justify-between pt-4 border-t border-stone-200 text-xs text-stone-500">
                   <p>

@@ -17,7 +17,7 @@ export async function handleEditorChat(req: AuthenticatedRequest, res: Response)
 
     const lastMsg = messages[messages.length - 1];
 
-    // Save user chat message if documentId provided
+    
     if (documentId && mongoose.Types.ObjectId.isValid(documentId)) {
       await ChatMessageModel.create({
         documentId,
@@ -35,7 +35,7 @@ export async function handleEditorChat(req: AuthenticatedRequest, res: Response)
       userName,
     });
 
-    // Save AI chat response
+    
     if (documentId && mongoose.Types.ObjectId.isValid(documentId)) {
       await ChatMessageModel.create({
         documentId,

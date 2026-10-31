@@ -47,7 +47,7 @@ export function AIChatPanel({
 
   return (
     <aside className="w-80 lg:w-96 border-l border-stone-200/80 bg-stone-50/50 flex flex-col h-[calc(100vh-3.5rem)]">
-      {/* Header */}
+      {}
       <div className="px-4 py-3 border-b border-stone-200/80 flex items-center justify-between bg-white">
         <div className="flex items-center gap-2">
           <div className="p-1 bg-stone-100 text-stone-700 rounded border border-stone-200">
@@ -60,7 +60,7 @@ export function AIChatPanel({
         </div>
       </div>
 
-      {/* Chat Messages */}
+      {}
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3.5">
         {messages.map((msg, index) => (
           <div
@@ -104,9 +104,9 @@ export function AIChatPanel({
         {isLoading && <ChatSkeleton />}
       </div>
 
-      {/* Input Form with Selected Text Card Positioned Directly Above It */}
+      {}
       <form onSubmit={handleSubmit} className="border-t border-stone-200/80 bg-white p-3 space-y-2">
-        {/* Selected text indicator badge directly above the input */}
+        {}
         {selectedText && (
           <div className="p-2.5 bg-stone-50 border border-stone-200 rounded-lg text-xs shadow-2xs animate-in fade-in-50 slide-in-from-bottom-2 duration-150">
             <div className="font-medium text-stone-800 flex items-center justify-between">

@@ -15,7 +15,7 @@ class MailService {
   }
 
   async sendPasswordResetOTP(toEmail: string, otp: string, userName?: string): Promise<boolean> {
-    // Always print to console as well for instant dev feedback
+    
     console.log(`\n======================================================`);
     console.log(`[SECURITY OTP DISPATCH] To: ${toEmail}`);
     console.log(`ONE-TIME PASSWORD (OTP): [ ${otp} ]`);

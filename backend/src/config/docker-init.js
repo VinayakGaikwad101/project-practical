@@ -13,7 +13,7 @@ console.log("\n======================================================");
 console.log("Initializing AI Document Editor Backend Services");
 console.log("======================================================\n");
 
-// 0. Auto-bootstrap .env if missing from .env.example
+
 const envPath = path.join(backendDir, ".env");
 const exampleEnvPath = path.join(backendDir, ".env.example");
 if (!fs.existsSync(envPath) && fs.existsSync(exampleEnvPath)) {
@@ -22,7 +22,7 @@ if (!fs.existsSync(envPath) && fs.existsSync(exampleEnvPath)) {
   console.log("[Environment] Created backend/.env successfully.\n");
 }
 
-// 1. Verify if Docker Desktop is available and running
+
 let dockerActive = false;
 try {
   execSync("docker info", { stdio: "ignore" });
@@ -33,7 +33,7 @@ try {
   console.log("[Docker] Backend will automatically utilize embedded in-memory MongoDB and direct PDF fallback.");
 }
 
-// 2. If Docker is active, ensure MongoDB & Redis containers exist and are started
+
 if (dockerActive) {
   try {
     console.log("[Docker] Ensuring MongoDB & Redis containers are running (docker compose up -d)...");

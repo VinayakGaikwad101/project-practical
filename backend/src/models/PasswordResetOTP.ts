@@ -12,7 +12,7 @@ const PasswordResetOTPSchema = new Schema<IPasswordResetOTP>(
   {
     email: { type: String, required: true, lowercase: true, index: true },
     otpHash: { type: String, required: true },
-    expiresAt: { type: Date, required: true, index: { expires: 0 } }, // Auto-expires in MongoDB
+    expiresAt: { type: Date, required: true, index: { expires: 0 } }, 
     used: { type: Boolean, default: false },
   },
   { timestamps: true }

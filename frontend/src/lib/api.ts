@@ -9,7 +9,7 @@ export const api = axios.create({
   },
 });
 
-// Attach JWT token from localStorage if present
+
 api.interceptors.request.use((config) => {
   if (typeof window !== "undefined") {
     const token = localStorage.getItem("auth_token");
@@ -20,7 +20,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Auto-handle 401 Unauthorized
+
 api.interceptors.response.use(
   (res) => res,
   (error) => {

@@ -77,10 +77,7 @@ export class GeminiLangChainService {
     });
   }
 
-  /**
-   * Process editor prompt with Exponential Backoff Retries & API Key Rotation
-   * Handles 429 Rate Limits, 503 Overloaded, and Network Jitter automatically
-   */
+  
   async processEditorInstruction(payload: EditorChatPayload): Promise<EditorChatResponse> {
     const { messages, documentTitle, documentContent, selectedText, userName } = payload;
     const lastUserMessage = messages[messages.length - 1]?.content || "";
@@ -118,7 +115,7 @@ Respond strictly with valid JSON with these two keys:
 
     const maxRetries = Math.max(3, this.keyRotator.totalKeys() * 2);
     let attempt = 0;
-    let baseDelayMs = 1000; // 1s initial backoff
+    let baseDelayMs = 1000; 
 
     while (attempt < maxRetries) {
       attempt++;
@@ -153,12 +150,12 @@ Respond strictly with valid JSON with these two keys:
           throw new Error(`AI request failed after ${attempt} attempts with key rotation. Last error: ${errMsg}`);
         }
 
-        // Rotate to another key immediately if rate-limited
+        
         if (isRateLimit && this.keyRotator.totalKeys() > 1) {
           this.keyRotator.rotateToNextKey();
         }
 
-        // Exponential backoff with jitter: delay = baseDelay * 2^(attempt-1) + random(0-500ms)
+        
         const delay = baseDelayMs * Math.pow(2, attempt - 1) + Math.floor(Math.random() * 500);
         console.log(`[Gemini Pipeline] Waiting ${(delay / 1000).toFixed(1)}s (Exponential Backoff) before retrying...`);
         await new Promise((resolve) => setTimeout(resolve, delay));

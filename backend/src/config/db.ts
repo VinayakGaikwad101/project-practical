@@ -5,7 +5,7 @@ export async function connectDB(): Promise<void> {
   
   try {
     mongoose.set("strictQuery", true);
-    // Attempt local or Atlas MongoDB connection with a 3-second timeout
+    
     await mongoose.connect(uri, { serverSelectionTimeoutMS: 3000 });
     console.log(`[Database] MongoDB connected successfully to ${uri}`);
   } catch (error: any) {

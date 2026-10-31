@@ -103,17 +103,17 @@ export async function forgotPassword(req: Request, res: Response): Promise<void>
 
     const user = await UserModel.findOne({ email: email.toLowerCase() });
     if (!user) {
-      // Return success anyway to avoid email enumeration
+      
       res.json({ success: true, message: "If this email exists, an OTP has been dispatched." });
       return;
     }
 
-    // Invalidate previous OTPs for this email
+    
     await PasswordResetOTPModel.deleteMany({ email: user.email });
 
     const rawOTP = generate6DigitOTP();
     const otpHash = hashOTP(rawOTP);
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); 
 
     await PasswordResetOTPModel.create({
       email: user.email,
@@ -162,7 +162,7 @@ export async function resetPasswordWithOTP(req: Request, res: Response): Promise
     const newHash = await hashPassword(newPassword);
     await UserModel.updateOne({ email: email.toLowerCase() }, { passwordHash: newHash });
 
-    // Mark OTP as used
+    
     record.used = true;
     await record.save();
 

@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface IDocumentDraft extends Document {
   title: string;
-  content: string; // Preserves complete semantic HTML structure
+  content: string; 
   plainText: string;
   status: "draft" | "published" | "archived";
   authorId: mongoose.Types.ObjectId;

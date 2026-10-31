@@ -32,7 +32,7 @@ export async function comparePassword(plainText: string, hash: string): Promise<
 }
 
 export function generate6DigitOTP(): string {
-  // Cryptographically secure 6-digit random number (100000 - 999999)
+  
   return crypto.randomInt(100000, 1000000).toString();
 }
 
